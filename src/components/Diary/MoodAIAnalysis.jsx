@@ -25,7 +25,7 @@ const MoodAIAnalysis = ({ entries }) => {
       }, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'i473prjtjanocg4a23tybf',
+          'Authorization': `${import.meta.env.VITE_TOKEN_OPENAI}`,
           'provider': 'open-ai',
           'mode': 'production'
         }
@@ -65,7 +65,7 @@ const MoodAIAnalysis = ({ entries }) => {
               {loading
                 ? "Loading..."
                 : aiSummary
-                ? aiSummary // Adjust this based on the actual response structure
+                ? aiSummary 
                 : "AI SUMMARY GOES HERE..."}
             </div>
             <div className="textarea textarea-success w-1/2 h-[400px] overflow-y-scroll">
