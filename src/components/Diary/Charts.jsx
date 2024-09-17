@@ -1,5 +1,4 @@
 const Charts = ({ aiSummary }) => {
-  // Define the mapping of sentiments to emojis
   const sentimentToEmoji = {
     positive: "positive 😊",
     neutral: "neutral 😎",
@@ -11,10 +10,8 @@ const Charts = ({ aiSummary }) => {
     busy: "busy 🤯",
   };
 
-  // Parse the AI summary to extract sentiment and content
   const { overallSentiment, positive, negative } = parseAISummary(aiSummary);
 
-  // Get the emoji based on the overall sentiment
   const sentimentEmoji =
     sentimentToEmoji[overallSentiment.toLowerCase()] || "";
 
