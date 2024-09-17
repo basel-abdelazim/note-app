@@ -3,14 +3,16 @@ import axios from 'axios';
 
 const NotesAISummary = ({ notes }) => {
   const modalRef = useRef();
-  const [loading, setLoading] = useState(false); // Replacing stream with loading
-  const [aiSummary, setAiSummary] = useState(null); 
+  const [loading, setLoading] = useState(false); 
+  const [stream, setStream] = useState(false); 
+  const [aiSummary, setAiSummary] = useState(null);
 
   const handleAISummary = async () => {
-    setLoading(true); // Indicate loading state
+    setLoading(true); 
     try {
       const response = await axios.post('https://gen-ai-wbs-consumer-api.onrender.com/api/v1/chat/completions', {
         model: 'gpt-4',
+        stream: stream, 
         messages: [
           {
             role: 'system',
@@ -31,12 +33,12 @@ const NotesAISummary = ({ notes }) => {
       });
 
       console.log('AI Response:', response.data);
-      setAiSummary(response.data.message.content); // Save the AI summary
+      setAiSummary(response.data.message.content); 
     } catch (error) {
       console.error('Error fetching AI summary:', error);
-      setAiSummary({ error: error.message }); // Save error message
+      setAiSummary({ error: error.message }); 
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false); 
     }
   };
 
@@ -54,6 +56,16 @@ const NotesAISummary = ({ notes }) => {
         <div className='modal-box h-[600px] py-0'>
           <div className='modal-action items-center justify-between mb-2'>
             <h1 className='text-2xl text-center'>Get AI Summary for Notes</h1>
+            <label htmlFor='Stream?' className='flex items-center gap-1'>
+              Stream?
+              <input
+                id='Stream?'
+                type='checkbox'
+                className='toggle toggle-error'
+                checked={stream}
+                onChange={() => setStream(p => !p)} 
+              />
+            </label>
             <form method='dialog'>
               <button className='btn'>&times;</button>
             </form>
@@ -65,7 +77,7 @@ const NotesAISummary = ({ notes }) => {
             <button
               className={`mt-5 btn bg-purple-500 hover:bg-purple-400 text-white ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
               onClick={handleAISummary}
-              disabled={loading} // Disable button while loading
+              disabled={loading} 
             >
               {loading ? "Generating..." : "Gen AI Summary ✨"}
             </button>
